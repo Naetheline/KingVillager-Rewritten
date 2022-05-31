@@ -13,6 +13,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.RenderProperties;
@@ -28,6 +29,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ObjectHolder;
 import net.minecraftforge.registries.RegistryObject;
@@ -58,9 +60,25 @@ public class KingVillagerMod {
     public static final VillagerProfession king = null;
      */
 
-    public static final RegistryObject<Block> throne = RegistryObject.create(new ResourceLocation(MOD_ID, "throne"), ForgeRegistries.BLOCKS);
-    public static final RegistryObject<PoiType> kingpoi = RegistryObject.create(new ResourceLocation(MOD_ID, "throne"), ForgeRegistries.POI_TYPES);
-    public static final RegistryObject<VillagerProfession> king = RegistryObject.create(new ResourceLocation(MOD_ID, "throne"), ForgeRegistries.PROFESSIONS);
+
+    // ***** REGISTERY OBJECTS *****
+   // public static final RegistryObject<Block> throne = RegistryObject.create(new ResourceLocation(MOD_ID, "throne"), ForgeRegistries.BLOCKS);
+   // public static final RegistryObject<PoiType> kingpoi = RegistryObject.create(new ResourceLocation(MOD_ID, "throne"), ForgeRegistries.POI_TYPES);
+   // public static final RegistryObject<VillagerProfession> king = RegistryObject.create(new ResourceLocation(MOD_ID, "throne"), ForgeRegistries.PROFESSIONS);
+
+
+    private static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MOD_ID);
+    private static final DeferredRegister<PoiType> POI_TYPES = DeferredRegister.create(ForgeRegistries.POI_TYPES, MOD_ID);
+    private static final DeferredRegister<VillagerProfession> PROFESSIONS = DeferredRegister.create(ForgeRegistries.PROFESSIONS, MOD_ID);
+
+    public static final RegistryObject<Block> throne = BLOCKS.register("throne", () -> new ThroneBlock(Block.Properties.of(Material.METAL).explosionResistance(4).sound(SoundType.METAL).noOcclusion()));
+
+    public static final RegistryObject<PoiType> kingpoi = POI_TYPES.register("kingpoi", () -> new KingPOI());
+
+    public static final RegistryObject<VillagerProfession> king = PROFESSIONS.register("king", () -> new KingProfession(kingpoi.get()));
+
+
+
 
     public KingVillagerMod()
     {
@@ -103,6 +121,9 @@ public class KingVillagerMod {
         // Do something when the server starts
         // LOGGER.info("HELLO from server starting");
     }
+
+
+    /*
 
     // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
     // Event bus for receiving Registry Events)
@@ -178,6 +199,8 @@ public class KingVillagerMod {
             }
         }
     }
+
+     */
 
 
     // Reflexion magic
