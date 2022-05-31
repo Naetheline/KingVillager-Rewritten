@@ -185,7 +185,7 @@ public class KingVillagerMod {
             ItemBlockRenderTypes.setRenderLayer(throne.get(), RenderType.cutout());
         }
     }
-
+*/
     // FORGE BUS
     @Mod.EventBusSubscriber(modid = KingVillagerMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
     public static class ForgeBusRegistryEvents
@@ -207,9 +207,6 @@ public class KingVillagerMod {
             }
         }
     }
-
-     */
-
 
     // Reflexion magic
     // Inject the throne into the workstations block in order to be notice by unemployed villagers
