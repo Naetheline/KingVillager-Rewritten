@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "kingvillager:block/throne"
+    },
+    "facing=west,": {
+      "model": "kingvillager:block/throne",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=south,": {
+      "model": "kingvillager:block/throne",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=north": {
+      "model": "kingvillager:block/throne",
+      "y": 270,
+      "uvlock": true
+    }
+  }
+}
