@@ -3,6 +3,7 @@ package softcat.kingvillager;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.BlockItem;
@@ -27,6 +28,9 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.ObjectHolder;
+import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
 import softcat.kingvillager.Block.ThroneBlock;
 import softcat.kingvillager.Profession.KingPOI;
@@ -45,9 +49,18 @@ public class KingVillagerMod {
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
 
+    /*
+    @ObjectHolder(MOD_ID)
     public static final Block throne = null;
+    @ObjectHolder(MOD_ID)
     public static final PoiType kingpoi = null;
+    @ObjectHolder(MOD_ID)
     public static final VillagerProfession king = null;
+     */
+
+    public static final RegistryObject<Block> throne = RegistryObject.create(new ResourceLocation(MOD_ID, "throne"), ForgeRegistries.BLOCKS);
+    public static final RegistryObject<PoiType> kingpoi = RegistryObject.create(new ResourceLocation(MOD_ID, "throne"), ForgeRegistries.POI_TYPES);
+    public static final RegistryObject<VillagerProfession> king = RegistryObject.create(new ResourceLocation(MOD_ID, "throne"), ForgeRegistries.PROFESSIONS);
 
     public KingVillagerMod()
     {
@@ -114,7 +127,7 @@ public class KingVillagerMod {
         {
 
             itemBlockEvent.getRegistry().registerAll(
-                    new BlockItem(throne, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)).setRegistryName(KingVillagerMod.MOD_ID, "throne")
+                    new BlockItem(throne.get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)).setRegistryName(KingVillagerMod.MOD_ID, "throne")
             );
         }
 
@@ -127,7 +140,7 @@ public class KingVillagerMod {
 
         // ***** PROFESSIONS *****
         public static void registerProfession(RegistryEvent.Register<VillagerProfession> VillagerProfessionEvent) {
-            VillagerProfessionEvent.getRegistry().registerAll(new KingProfession(kingpoi).setRegistryName(KingVillagerMod.MOD_ID, "king"));
+            VillagerProfessionEvent.getRegistry().registerAll(new KingProfession(kingpoi.get()).setRegistryName(KingVillagerMod.MOD_ID, "king"));
             // injectWorkstation();
         }
 
@@ -140,7 +153,7 @@ public class KingVillagerMod {
         @SubscribeEvent
         public static void onFMLClientSetup(FMLClientSetupEvent event) {
 
-            ItemBlockRenderTypes.setRenderLayer(throne, RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(throne.get(), RenderType.cutout());
         }
     }
 
@@ -152,7 +165,7 @@ public class KingVillagerMod {
         @SubscribeEvent
         public static void registerTrades(VillagerTradesEvent TradesEvent){
 
-            if(TradesEvent.getType() == king)
+            if(TradesEvent.getType() == king.get())
             {
                 TradesEvent.getTrades().get(1).add((new RandomTradeBuilder(16, 10, 0.05F).setEmeraldPrice(2).setForSale(Items.IRON_INGOT, 1, 2).build()));
                 TradesEvent.getTrades().get(1).add((new RandomTradeBuilder(16, 10, 0.05F).setPrice(Items.GOLD_NUGGET, 8,16).setForSale(Items.EMERALD, 1, 1).build()));

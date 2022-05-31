@@ -6,6 +6,6 @@ import softcat.kingvillager.KingVillagerMod;
 public class KingPOI extends PoiType {
 
     public KingPOI() {
-        super("king", getBlockStates(KingVillagerMod.throne), 1, 1);
+        super("king", getBlockStates(KingVillagerMod.throne.get()), 1, 1);
     }
 }
