@@ -68,10 +68,13 @@ public class KingVillagerMod {
 
 
     private static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MOD_ID);
+    private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
     private static final DeferredRegister<PoiType> POI_TYPES = DeferredRegister.create(ForgeRegistries.POI_TYPES, MOD_ID);
     private static final DeferredRegister<VillagerProfession> PROFESSIONS = DeferredRegister.create(ForgeRegistries.PROFESSIONS, MOD_ID);
 
     public static final RegistryObject<Block> throne = BLOCKS.register("throne", () -> new ThroneBlock(Block.Properties.of(Material.METAL).explosionResistance(4).sound(SoundType.METAL).noOcclusion()));
+
+    public static final RegistryObject<BlockItem> throne_item = ITEMS.register("throne", () -> new BlockItem(throne.get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
 
     public static final RegistryObject<PoiType> kingpoi = POI_TYPES.register("kingpoi", () -> new KingPOI());
 
@@ -91,6 +94,11 @@ public class KingVillagerMod {
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+
+        BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        POI_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
+        PROFESSIONS.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
     private void setup(final FMLCommonSetupEvent event)
